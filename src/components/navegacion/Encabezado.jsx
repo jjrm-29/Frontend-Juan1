@@ -72,7 +72,7 @@ const manejarNavegacion = (ruta) => {
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/catalogo")}
               >
-              Catálogo
+              {mostrarMenu ? <i class="bi bi-journal-bookmark-fill"></i> : null}Catálogo
               </Nav.Link>
 
 
@@ -80,7 +80,7 @@ const manejarNavegacion = (ruta) => {
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/clientes")}
                >
-               Clientes
+              {mostrarMenu ? <i class="bi bi-person-badge"></i> : null} Clientes
               </Nav.Link>
 
 
@@ -88,7 +88,7 @@ const manejarNavegacion = (ruta) => {
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/empleados")}
                >
-                Empleados
+               {mostrarMenu ? <i class="bi bi-people-fill"></i> : null} Empleados
               </Nav.Link>
 
 
@@ -96,7 +96,7 @@ const manejarNavegacion = (ruta) => {
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/usuarios")}
                >
-                Usuarios
+              {mostrarMenu ? <i class="bi bi-person-fill-add"></i> : null} Usuarios
               </Nav.Link>
 
 
@@ -104,14 +104,15 @@ const manejarNavegacion = (ruta) => {
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/ventas")}
                >
-                Ventas
+              {mostrarMenu ? <i class="bi bi-bag-plus"></i> : null} Ventas
               </Nav.Link>
 
 
               <Nav.Link
               className={mostrarMenu ? "texto-marca" : "text-white"}
                onClick={() => manejarNavegacion("/compras")}
-               >Compras
+               >
+              {mostrarMenu ? <i class="bi bi-basket-fill"></i> : null} Compras
               </Nav.Link>
 
             </Nav>
