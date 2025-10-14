@@ -13,3 +13,4 @@ const Mensaje = () => {
     </>
     );
 };
+export default Mensaje;
