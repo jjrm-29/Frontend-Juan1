@@ -2,7 +2,7 @@ const Usuarios = () => {
 
   return (
     <>
-      <h2>Pagina de Usuarios</h2>;
+      <h2>Pagina de Usuarios</h2>
     </>
   );
 

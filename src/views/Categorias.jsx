@@ -2,7 +2,7 @@ const Categorias = () => {
 
   return (
     <>
-      <h2>Pagina de Categorias</h2>;
+      <h2>Pagina de Categorias</h2>
     </>
   );
 

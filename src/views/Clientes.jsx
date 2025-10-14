@@ -2,7 +2,7 @@ const Clientes = () => {
 
   return (
     <>
-      <h2>Pagina de Clientes</h2>;
+      <h2>Pagina de Clientes</h2>
     </>
   );
 

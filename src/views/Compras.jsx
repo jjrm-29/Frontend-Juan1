@@ -2,7 +2,7 @@ const Compras = () => {
 
   return (
     <>
-      <h2>Pagina de Compras</h2>;
+      <h2>Pagina de Compras</h2>
     </>
   );
 
