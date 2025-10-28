@@ -97,7 +97,7 @@ const ModalRegistroCliente = ({
               value={nuevoCliente.cedula}
               onChange={manejarCambioInput}
               placeholder="Ej: 121******1005V"
-              maxLength={16}
+              maxLength={14}
               required
             />
           </Form.Group>
