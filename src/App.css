@@ -6,3 +6,13 @@
 .texto-marca {
   color:rgba(79, 94, 143, 0.929);
 }
+
+.texto_lateral {
+  color: rgb(235, 165, 86);
+}
+
+.color-boton-registro {
+  background-color: rgb(79, 94, 143);
+  border-color: rgb(255, 196, 196);
+}
+
