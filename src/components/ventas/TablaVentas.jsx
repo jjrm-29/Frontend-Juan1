@@ -16,7 +16,7 @@ const TablaVentas = ({ ventas, cargando }) => {
         <>
             <Table striped bordered hover>
                 <thead>
-                    <tr>
+                       <tr>
                         <th>ID</th>
                         <th>id_cliente </th>
                         <th>id_empleado</th>
