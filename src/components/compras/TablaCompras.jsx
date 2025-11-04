@@ -1,44 +1,96 @@
-import {Table, Spinner} from 'react-bootstrap';
+import React, { useState } from "react";
+import { Table, Spinner, Button } from "react-bootstrap";
+import BotonOrden from "../ordenamiento/BotonOrden";  // Asegúrate de tener el componente BotonOrden
 
 const TablaCompras = ({ compras, cargando }) => {
+  const [orden, setOrden] = useState({
+    campo: "id_compra", // Se inicia con el campo "id_compra"
+    direccion: "asc", // Se inicia con el orden ascendente
+  });
 
-    if (cargando)
-        return (
-            <>
+  const manejarOrden = (campo) => {
+    setOrden((prev) => ({
+      campo,
+      direccion:
+        prev.campo === campo && prev.direccion === "asc" ? "desc" : "asc", // Alterna entre ascendente y descendente
+    }));
+  };
 
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Cargando compras...</span>
-                </Spinner>
-            </>
+  const comprasOrdenadas = [...compras].sort((a, b) => {
+    const valorA = a[orden.campo];
+    const valorB = b[orden.campo];
 
-        );
+    if (typeof valorA === "number" && typeof valorB === "number") {
+      return orden.direccion === "asc" ? valorA - valorB : valorB - valorA;
+    }
+
+    const comparacion = String(valorA).localeCompare(String(valorB));
+    return orden.direccion === "asc" ? comparacion : -comparacion;
+  });
+
+  if (cargando)
     return (
-        <>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>id_empleado</th>
-                        <th>fecha_compra</th>
-                        <th>total_compra</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {compras?.map((compra) => (
-                        <tr key={compra.id_compra}>
-                            <td>{compra.id_compra}</td>
-                            <td>{compra.id_empleado}</td>
-                            <td>{compra.fecha_compra}</td>
-                            <td>{compra.total_compra}</td>
-                            <td>Acción</td>
-                        </tr>
-                    ))}
-
-
-                </tbody>
-            </Table>
-        </>
+      <>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Cargando compras...</span>
+        </Spinner>
+      </>
     );
-}
+
+  return (
+    <>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <BotonOrden
+              campo="id_compra"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
+              ID
+            </BotonOrden>
+
+            <BotonOrden
+              campo="id_empleado"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
+              ID Empleado
+            </BotonOrden>
+
+            <BotonOrden
+              campo="fecha_compra"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
+              Fecha Compra
+            </BotonOrden>
+
+            <BotonOrden
+              campo="total_compra"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
+              Total Compra
+            </BotonOrden>
+
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {comprasOrdenadas.map((compra) => (
+            <tr key={compra.id_compra}>
+              <td>{compra.id_compra}</td>
+              <td>{compra.id_empleado}</td>
+              <td>{compra.fecha_compra}</td>
+              <td>{compra.total_compra}</td>
+              <td>Acción</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
+  );
+};
+
 export default TablaCompras;
