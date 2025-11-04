@@ -43,7 +43,7 @@ const ModalRegistroCompra = ({
           <Form.Group className="mb-3" controlId="total_compra">
             <Form.Label>total de la Compra</Form.Label>
             <Form.Control
-              type="date"
+              type="text"
               name="total_compra"
               value={nuevaCompra.total_compra}
               onChange={manejarCambioInput}
