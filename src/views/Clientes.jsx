@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import TablaClientes from "../components/clientes/TablaClientes";
 import { Container, Col, Row, Button } from "react-bootstrap";
-import CuadroBusquedas from "../components/CuadroBusquedas/busquedas";
+import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
 import ModalRegistroCliente from "../components/clientes/ModalRegistroCliente";
 import ModalEdicionCliente from "../components/clientes/ModalEdicionCliente";
 import ModalEliminacionCliente from "../components/clientes/ModalEliminacionCliente";

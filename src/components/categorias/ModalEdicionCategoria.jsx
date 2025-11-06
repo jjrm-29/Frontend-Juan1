@@ -24,7 +24,7 @@ const ModalEdicionCategoria = ({
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="nombreCategoria">
+          <Form.Group className="mb-3" controlId="nombre_categoria">
             <Form.Label>Nombre de la Categoría</Form.Label>
             <Form.Control
               type="text"
@@ -37,7 +37,7 @@ const ModalEdicionCategoria = ({
               autoFocus
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="descripcionCategoria">
+          <Form.Group className="mb-3" controlId="descripcion_categoria">
             <Form.Label>Descripción</Form.Label>
             <Form.Control
               as="textarea"

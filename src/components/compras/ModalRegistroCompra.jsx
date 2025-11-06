@@ -17,7 +17,7 @@ const ModalRegistroCompra = ({
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3" controlId="id_compra">
-            <Form.Label>ID del empleado</Form.Label>
+            <Form.Label>ID de la Compra</Form.Label>
             <Form.Control
               type="text"
               name="id_compra"
@@ -29,7 +29,7 @@ const ModalRegistroCompra = ({
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="fecha_compra">
-            <Form.Label>fecha de la Compra</Form.Label>
+            <Form.Label>Fecha de la Compra</Form.Label>
             <Form.Control
               type="date"
               name="fecha_compra"
@@ -41,9 +41,9 @@ const ModalRegistroCompra = ({
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="total_compra">
-            <Form.Label>total de la Compra</Form.Label>
+            <Form.Label>Total de la Compra</Form.Label>
             <Form.Control
-              type="text"
+              type="Float"
               name="total_compra"
               value={nuevaCompra.total_compra}
               onChange={manejarCambioInput}

@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react';
 import TablaCompras from '../components/compras/TablaCompras';
 import { Container, Col, Row, Button } from 'react-bootstrap';
-import CuadroBusquedas from "../components/CuadroBusquedas/busquedas";
+import CuadroBusquedas from '../components/CuadroBusquedas/Busquedas';
 import ModalRegistroCompra from '../components/compras/ModalRegistroCompra';
 
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TablaCategorias from "../components/categorias/TablaCategorias";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import ModalRegistroCategoria from "../components/categorias/ModalRegitroCategoria";
-import CuadroBusquedas from "../components/CuadroBusquedas/busquedas";
+import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
 import ModalEdicionCategoria from "../components/categorias/ModalEdicionCategoria";
 import ModalEliminacionCategoria from "../components/categorias/ModalEliminacionCategoria";
 

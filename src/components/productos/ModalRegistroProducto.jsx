@@ -75,18 +75,6 @@ const ModalRegistroProducto = ({
               maxLength={8}
               required
             />
-             </Form.Group>
-          <Form.Group className="mb-3" controlId="imagen">
-            <Form.Label>Imagen del Producto</Form.Label>
-            <Form.Control
-              type="text"
-              name="imagen"
-              value={nuevoProducto.imagen}
-              onChange={manejarCambioInput}
-              placeholder="Ej: imagen.jpg"
-              maxLength={8}
-              required
-            />
           </Form.Group>
         </Form>
       </Modal.Body>

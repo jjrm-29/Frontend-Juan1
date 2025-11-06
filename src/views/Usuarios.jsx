@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import TablaUsuarios from "../components/usuarios/TablaUsuarios";
-import CuadroBusquedas from "../components/CuadroBusquedas/busquedas";
+import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
 import ModalRegistroUsuario from "../components/usuarios/ModalRegistroUsuario";
 
 const Usuarios = () => {

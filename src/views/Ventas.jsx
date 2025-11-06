@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import TablaVentas from "../components/ventas/TablaVentas";
 import { Container, Col, Row, Button } from "react-bootstrap";
-import CuadroBusquedas from "../components/CuadroBusquedas/busquedas";
+import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
 import ModalRegistroVenta from "../components/ventas/ModalRegistroVenta";
 
 const Ventas = () => {
