@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import TablaEmpleados from "../components/empleados/TablaEmpleados";
-import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
+import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalRegistroEmpleado from "../components/empleados/ModalRegistroEmpleado";
 import ModalEdicionEmpleado from "../components/empleados/ModalEdicionEmpleado";
 import ModalEliminacionEmpleado from "../components/empleados/ModalEliminacionEmpleado";

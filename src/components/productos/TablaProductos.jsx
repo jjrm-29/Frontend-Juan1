@@ -21,7 +21,8 @@ const TablaProductos = ({
   const manejarOrden = (campo) => {
     setOrden((prev) => ({
       campo,
-      direccion: prev.campo === campo && prev.direccion === "asc" ? "desc" : "asc",
+      direccion:
+        prev.campo === campo && prev.direccion === "asc" ? "desc" : "asc",
     }));
   };
 
@@ -49,19 +50,39 @@ const TablaProductos = ({
       <Table striped bordered hover>
         <thead>
           <tr>
-            <BotonOrden campo="id_producto" orden={orden} manejarOrden={manejarOrden}>
+            <BotonOrden
+              campo="id_producto"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
               ID
             </BotonOrden>
-            <BotonOrden campo="nombre_producto" orden={orden} manejarOrden={manejarOrden}>
+            <BotonOrden
+              campo="nombre_producto"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
               Nombre
             </BotonOrden>
-            <BotonOrden campo="descripcion_producto" orden={orden} manejarOrden={manejarOrden}>
+            <BotonOrden
+              campo="descripcion_producto"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
               Descripción
             </BotonOrden>
-            <BotonOrden campo="id_categoria" orden={orden} manejarOrden={manejarOrden}>
+            <BotonOrden
+              campo="id_categoria"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
               Categoría
             </BotonOrden>
-            <BotonOrden campo="precio_unitario" orden={orden} manejarOrden={manejarOrden}>
+            <BotonOrden
+              campo="precio_unitario"
+              orden={orden}
+              manejarOrden={manejarOrden}
+            >
               Precio
             </BotonOrden>
             <BotonOrden campo="stock" orden={orden} manejarOrden={manejarOrden}>
@@ -80,8 +101,22 @@ const TablaProductos = ({
               <td>{producto.id_categoria}</td>
               <td>{producto.precio_unitario}</td>
               <td>{producto.stock}</td>
-              <td>{producto.imagen}</td>
               <td>
+                  {producto.imagen ? (
+                    <img
+                      src={`data:image/png;base64,${producto.imagen}`}
+                      alt={producto.nombre_producto}
+                      widt={50}
+                      height={50}
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    "Sin imagen"
+                  )}
+                </td>
+              <td>
+
+
                 <Button
                   variant="outline-warning"
                   size="sm"

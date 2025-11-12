@@ -8,9 +8,12 @@ const ModalRegistroProducto = ({
   agregarProducto,
 }) => {
   return (
-    <Modal  backdrop = "static" show={mostrarModal} onHide={() => setMostrarModal(false)} centered>
-      
-      
+    <Modal
+      backdrop="static"
+      show={mostrarModal}
+      onHide={() => setMostrarModal(false)}
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title>Agregar Nuevo Producto</Modal.Title>
       </Modal.Header>
@@ -63,7 +66,7 @@ const ModalRegistroProducto = ({
               maxLength={8}
               required
             />
-            </Form.Group>
+          </Form.Group>
           <Form.Group className="mb-3" controlId="stock">
             <Form.Label>Stock del Producto</Form.Label>
             <Form.Control
@@ -76,6 +79,30 @@ const ModalRegistroProducto = ({
               required
             />
           </Form.Group>
+          
+          <Form.Group className="mb-3" controlId="formImagenProducto">
+            <Form.Label>Imagen</Form.Label>
+            <Form.Control
+              type="file"
+              name="imagen"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    manejarCambioInput({
+                      target: {
+                        name: "imagen",
+                        value: reader.result.split(",")[1],
+                      }, // Extrae solo la parte Base64
+                    });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+          </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -86,8 +113,6 @@ const ModalRegistroProducto = ({
           variant="primary"
           onClick={agregarProducto}
           disabled={!nuevoProducto.nombre_producto.trim()}
-
-          
         >
           Guardar Producto
         </Button>

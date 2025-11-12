@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import TablaProductos from "../components/productos/TablaProductos";
 import { Container, Col, Row, Button } from "react-bootstrap";
-import CuadroBusquedas from "../components/CuadroBusquedas/Busquedas";
+import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalRegistroProducto from "../components/productos/ModalRegistroProducto";
 import ModalEdicionProducto from "../components/productos/ModalEdicionProducto";
 import ModalEliminacionProducto from "../components/productos/ModalEliminacionProducto";
@@ -47,7 +47,7 @@ const Productos = () => {
     }
 
     try {
-      const respuesta = await fetch("http://localhost:3000/api/registrarproductos", {
+      const respuesta = await fetch("http://localhost:3000/api/registrarProducto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
