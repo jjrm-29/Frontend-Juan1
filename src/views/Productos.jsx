@@ -5,6 +5,10 @@ import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalRegistroProducto from "../components/productos/ModalRegistroProducto";
 import ModalEdicionProducto from "../components/productos/ModalEdicionProducto";
 import ModalEliminacionProducto from "../components/productos/ModalEliminacionProducto";
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
+
+
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
@@ -23,13 +27,124 @@ const Productos = () => {
     imagen: "",
   });
 
+  const generatePDFProductos = () => {
+    const doc = new jsPDF();
+
+    doc.setFillColor(28, 41, 51);
+    doc.rect(0, 0, 220, 30, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.text("Lista de Productos", doc.internal.pageSize.getWidth() / 2, 15, {
+      align: "center",
+    });
+
+    const columnas = [
+      "ID",
+      "Nombre",
+      "Descripción",
+      "Categoría",
+      "Precio Unitario",
+      "Stock",
+    ];
+    const filas = productos.map((producto) => [
+      producto.id_producto,
+      producto.nombre_producto,
+      producto.descripcion_producto,
+      producto.id_categoria,
+      `C$ ${parseFloat(producto.precio_unitario).toFixed(2)}`,
+      producto.stock,
+    ]);
+
+    const totalPaginas = "{total_pages_count_string}";
+
+    autoTable(doc, {
+      head: [columnas], // CORREGIDO: antes estaba 'heard'
+      body: filas,
+      startY: 40,
+      theme: "grid",
+      styles: { fontSize: 10, cellPadding: 2 },
+      margin: { top: 20, left: 14, right: 14 },
+      tableWidth: "auto",
+      columnStyles: {
+        0: { cellWidth: "auto" },
+        1: { cellWidth: "auto" },
+        2: { cellWidth: "auto" },
+      },
+      pageBreak: "auto",
+      rowPageBreak: "auto",
+      didDrawPage: function (data) {
+        const alturaPagina = doc.internal.pageSize.getHeight();
+        const anchoPagina = doc.internal.pageSize.getWidth();
+
+        const numeroPagina = doc.internal.getNumberOfPages(); // CORREGIDO
+
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        const piePagina = `Página ${numeroPagina} de ${totalPaginas}`;
+        doc.text(piePagina, anchoPagina / 2, alturaPagina - 10, {
+          align: "center",
+        });
+      },
+    });
+
+    if (typeof doc.putTotalPages === "function") {
+      doc.putTotalPages(totalPaginas);
+    }
+
+    const fecha = new Date();
+    const dia = String(fecha.getDate()).padStart(2, "0");
+    const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+    const anio = fecha.getFullYear();
+    const nombreArchivo = `productos_${dia}${mes}${anio}.pdf`;
+
+    doc.save(nombreArchivo);
+  };
+
+ const generatePDFDetalleProducto = (producto) => {
+  const doc = new jsPDF();
+  const anchoPagina = doc.internal.pageSize.getWidth();
+
+  // Encabezado
+  doc.setFillColor(28, 41, 51);
+  doc.rect(0, 0, anchoPagina, 30, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18);
+  doc.text(producto.nombre_producto, anchoPagina / 2, 18, { align: "center" });
+
+  let posicionY = 58;
+
+  if (producto.imagen) {
+    const propiedadesImagen = doc.getImageProperties(producto.imagen);
+    const anchoImagen = 100;
+    const altoImagen = (propiedadesImagen.height * anchoImagen) / propiedadesImagen.width;
+    const posicionXImagen = (anchoPagina - anchoImagen) / 2;
+
+    doc.addImage(producto.imagen, "JPEG", posicionXImagen, 35, anchoImagen, altoImagen);
+    posicionY += altoImagen + 10;
+  }
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(14);
+
+  doc.text(`Descripción: ${producto.descripcion_producto}`, anchoPagina / 2, posicionY, { align: "center" });
+  doc.text(`Categoría: ${producto.id_categoria}`, anchoPagina / 2, posicionY + 10, { align: "center" });
+  doc.text(`Precio: C$ ${producto.precio_unitario.toFixed(2)}`, anchoPagina / 2, posicionY + 20, { align: "center" });
+  doc.text(`Stock: ${producto.stock}`, anchoPagina / 2, posicionY + 30, { align: "center" });
+
+  doc.save(`${producto.nombre_producto}.pdf`);
+};
+
+
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false);
   const [mostrarModalEliminar, setMostrarModalEliminar] = useState(false);
   const [productoEditado, setProductoEditado] = useState(null);
   const [productoAEliminar, setProductoAEliminar] = useState(null);
+ 
 
   const [paginaActual, establecerPaginaActual] = useState(1);
   const elementosPorPagina = 10;
+
+
 
   // Manejo de inputs
   const manejarCambioInput = (e) => {
@@ -185,6 +300,25 @@ const Productos = () => {
           </Button>
         </Col>
       </Row>
+        <Col lg={3} md={4} sm={4} xs={5} >
+        <Button
+        className="mb-3"
+        onClick={generatePDFProductos}
+        variant="secondary"
+      >
+        Generar reporte PDF
+      </Button>
+      </Col>
+
+      <Button
+      variant="outline-secondary"
+      size="sm"
+      className="me-2"
+      onClick={() => generatePDFDetalleProducto(productos)}
+    >
+      <i className="bi bi-file-earmark-pdf"></i>
+      Reporte PDF Detalle
+    </Button>
 
       <TablaProductos
         productos={productosPaginados}

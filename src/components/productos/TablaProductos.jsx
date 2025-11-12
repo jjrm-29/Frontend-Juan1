@@ -18,6 +18,67 @@ const TablaProductos = ({
     direccion: "asc",
   });
 
+  const generatePDFDetalleProducto = (producto) => {
+    const doc = new jsPDF();
+    const anchoPagina = doc.internal.pageSize.getWidth();
+
+    // Encabezado
+    doc.setFillColor(28, 41, 51);
+    doc.rect(0, 0, anchoPagina, 30, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(18);
+    doc.text(producto.nombre_producto, anchoPagina / 2, 18, {
+      align: "center",
+    });
+
+    let posicionY = 58;
+
+    if (producto.imagen) {
+      const propiedadesImagen = doc.getImageProperties(producto.imagen);
+      const anchoImagen = 100;
+      const altoImagen =
+        (propiedadesImagen.height * anchoImagen) / propiedadesImagen.width;
+      const posicionXImagen = (anchoPagina - anchoImagen) / 2;
+
+      doc.addImage(
+        producto.imagen,
+        "JPEG",
+        posicionXImagen,
+        35,
+        anchoImagen,
+        altoImagen
+      );
+      posicionY += altoImagen + 10;
+    }
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(14);
+
+    doc.text(
+      `Descripción: ${producto.descripcion_producto}`,
+      anchoPagina / 2,
+      posicionY,
+      { align: "center" }
+    );
+    doc.text(
+      `Categoría: ${producto.id_categoria}`,
+      anchoPagina / 2,
+      posicionY + 10,
+      { align: "center" }
+    );
+    doc.text(
+      `Precio: C$ ${producto.precio_unitario.toFixed(2)}`,
+      anchoPagina / 2,
+      posicionY + 20,
+      { align: "center" }
+    );
+    doc.text(`Stock: ${producto.stock}`, anchoPagina / 2, posicionY + 30, {
+      align: "center",
+    });
+
+    doc.save(`${producto.nombre_producto}.pdf`);
+  };
+
   const manejarOrden = (campo) => {
     setOrden((prev) => ({
       campo,
@@ -102,21 +163,28 @@ const TablaProductos = ({
               <td>{producto.precio_unitario}</td>
               <td>{producto.stock}</td>
               <td>
-                  {producto.imagen ? (
-                    <img
-                      src={`data:image/png;base64,${producto.imagen}`}
-                      alt={producto.nombre_producto}
-                      widt={50}
-                      height={50}
-                      style={{ objectFit: "cover" }}
-                    />
-                  ) : (
-                    "Sin imagen"
-                  )}
-                </td>
+                {producto.imagen ? (
+                  <img
+                    src={`data:image/png;base64,${producto.imagen}`}
+                    alt={producto.nombre_producto}
+                    widt={50}
+                    height={50}
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  "Sin imagen"
+                )}
+              </td>
+
+              <Button
+                variant="outline-secondary"
+                size="sm"
+                className="me-2"
+                onClick={() => generatePDFDetalleProducto(producto)}
+              >
+                <i className="bi bi-file-earmark-pdf"></i>
+              </Button>
               <td>
-
-
                 <Button
                   variant="outline-warning"
                   size="sm"
