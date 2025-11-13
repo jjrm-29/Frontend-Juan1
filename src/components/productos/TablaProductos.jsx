@@ -175,15 +175,6 @@ const TablaProductos = ({
                   "Sin imagen"
                 )}
               </td>
-
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                className="me-2"
-                onClick={() => generatePDFDetalleProducto(producto)}
-              >
-                <i className="bi bi-file-earmark-pdf"></i>
-              </Button>
               <td>
                 <Button
                   variant="outline-warning"

@@ -1,5 +1,5 @@
-
 const Inicio = () => {
+
 
   return (
     <>
@@ -8,5 +8,4 @@ const Inicio = () => {
   );
 
 }
-
 export default Inicio;
