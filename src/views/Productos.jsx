@@ -100,7 +100,9 @@ const Productos = () => {
     doc.save(nombreArchivo);
   };
 
- const generatePDFDetalleProducto = (producto) => {
+const generatePDFDetalleProducto = (producto) => {
+  if (!producto) return;
+
   const doc = new jsPDF();
   const anchoPagina = doc.internal.pageSize.getWidth();
 
@@ -109,18 +111,29 @@ const Productos = () => {
   doc.rect(0, 0, anchoPagina, 30, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(18);
+
+  const titulo = String(producto.nombre_producto || "");
+  const anchoTexto = doc.getTextWidth(titulo);
+  const posicionX = (anchoPagina - anchoTexto) / 2;
+  doc.text(titulo, posicionX, 18);
+
   doc.text(producto.nombre_producto, anchoPagina / 2, 18, { align: "center" });
 
   let posicionY = 58;
 
+  // Imagen (solo si existe)
   if (producto.imagen) {
-    const propiedadesImagen = doc.getImageProperties(producto.imagen);
-    const anchoImagen = 100;
-    const altoImagen = (propiedadesImagen.height * anchoImagen) / propiedadesImagen.width;
-    const posicionXImagen = (anchoPagina - anchoImagen) / 2;
+    try {
+      const propiedadesImagen = doc.getImageProperties(producto.imagen);
+      const anchoImagen = 100;
+      const altoImagen = (propiedadesImagen.height * anchoImagen) / propiedadesImagen.width;
+      const posicionXImagen = (anchoPagina - anchoImagen) / 2;
 
-    doc.addImage(producto.imagen, "JPEG", posicionXImagen, 35, anchoImagen, altoImagen);
-    posicionY += altoImagen + 10;
+      doc.addImage(producto.imagen, "JPEG", posicionXImagen, 35, anchoImagen, altoImagen);
+      posicionY += altoImagen + 10;
+    } catch (error) {
+      console.warn("No se pudo cargar la imagen en el PDF");
+    }
   }
 
   doc.setTextColor(0, 0, 0);
@@ -128,11 +141,13 @@ const Productos = () => {
 
   doc.text(`Descripción: ${producto.descripcion_producto}`, anchoPagina / 2, posicionY, { align: "center" });
   doc.text(`Categoría: ${producto.id_categoria}`, anchoPagina / 2, posicionY + 10, { align: "center" });
-  doc.text(`Precio: C$ ${producto.precio_unitario.toFixed(2)}`, anchoPagina / 2, posicionY + 20, { align: "center" });
+  doc.text(`Precio: C$ ${Number(producto.precio_unitario).toFixed(2)}`, anchoPagina / 2, posicionY + 20, { align: "center" });
   doc.text(`Stock: ${producto.stock}`, anchoPagina / 2, posicionY + 30, { align: "center" });
 
-  doc.save(`${producto.nombre_producto}.pdf`);
+  // Guardar PDF
+  doc.save(`detalle_${producto.nombre_producto}.pdf`);
 };
+
 
 
   const [mostrarModalEdicion, setMostrarModalEdicion] = useState(false);
@@ -162,7 +177,7 @@ const Productos = () => {
     }
 
     try {
-      const respuesta = await fetch("http://localhost:3000/api/registrarProducto", {
+      const respuesta = await fetch("http://localhost:3000/api/Productos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

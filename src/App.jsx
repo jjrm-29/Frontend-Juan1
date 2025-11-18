@@ -13,6 +13,7 @@ import Compras from "./views/Compras";
 import Categorias from "./views/Categorias";
 import Productos from "./views/Productos";
 import Catalogo from "./views/Catalogo";
+import RutaProtegida from "./components/rutas/RutaProtegida";
 
 
 //Importar archivo de estilos.
@@ -24,8 +25,9 @@ const App = () =>{
       <Encabezado />
       <main className="margen-superior-main">
         <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/inicio" element={<RutaProtegida vista={<Inicio />} />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/inicio" element={<Inicio />} />
           <Route path="/categorias" element={<Categorias />} />
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/clientes" element={<Clientes />} />
@@ -35,6 +37,7 @@ const App = () =>{
           <Route path="/productos" element={<Productos />} />
           <Route path="/catalogo" element={<Catalogo />} />
           <Route path="*" element={<h2>404 - Página no encontrada</h2>} />
+          
         </Routes>
       </main>
     </Router>
