@@ -5,6 +5,7 @@ import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalRegistroEmpleado from "../components/empleados/ModalRegistroEmpleado";
 import ModalEdicionEmpleado from "../components/empleados/ModalEdicionEmpleado";
 import ModalEliminacionEmpleado from "../components/empleados/ModalEliminacionEmpleado";
+import { useNavigate } from "react-router-dom";
 
 const Empleados = () => {
   const [empleados, setEmpleados] = useState([]);
@@ -18,8 +19,8 @@ const Empleados = () => {
   const [empleadoAEliminar, setEmpleadoAEliminar] = useState(null);
   const [paginaActual, establecerPaginaActual] = useState(1);
   const elementosPorPagina = 5;
+  const navigate = useNavigate();
 
-  // Fecha actual en formato YYYY-MM-DD (para input type="date")
   const hoy = new Date().toISOString().split("T")[0];
 
   const [nuevoEmpleado, setNuevoEmpleado] = useState({
@@ -43,20 +44,13 @@ const Empleados = () => {
   };
 
   const agregarEmpleado = async () => {
-    if (
-      !nuevoEmpleado.primer_nombre.trim() ||
-      !nuevoEmpleado.primer_apellido.trim()
-    )
-      return;
+    if (!nuevoEmpleado.primer_nombre.trim() || !nuevoEmpleado.primer_apellido.trim()) return;
     try {
-      const respuesta = await fetch(
-        "http://localhost:3000/api/registrarempleado",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(nuevoEmpleado),
-        }
-      );
+      const respuesta = await fetch("http://localhost:3000/api/registrarempleado", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevoEmpleado),
+      });
       if (!respuesta.ok) throw new Error("Error al guardar");
       setNuevoEmpleado({
         primer_nombre: "",
@@ -104,16 +98,12 @@ const Empleados = () => {
   };
 
   const abrirModalEdicion = (empleado) => {
-    setEmpleadoEditado({ ...empleado }); // ← Carga fecha tal como está en BD
+    setEmpleadoEditado({ ...empleado });
     setMostrarModalEdicion(true);
   };
 
   const guardarEdicion = async () => {
-    if (
-      !empleadoEditado.primer_nombre.trim() ||
-      !empleadoEditado.primer_apellido.trim()
-    )
-      return;
+    if (!empleadoEditado.primer_nombre.trim() || !empleadoEditado.primer_apellido.trim()) return;
     try {
       const respuesta = await fetch(
         `http://localhost:3000/api/actualizarEmpleado/${empleadoEditado.id_empleado}`,
@@ -141,9 +131,7 @@ const Empleados = () => {
     try {
       const respuesta = await fetch(
         `http://localhost:3000/api/eliminarempleado/${empleadoAEliminar.id_empleado}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
       if (!respuesta.ok) throw new Error("Error al eliminar");
       setMostrarModalEliminar(false);
@@ -160,9 +148,22 @@ const Empleados = () => {
   }, []);
 
   return (
-    <>
-      <Container className="mt-4">
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1470&q=80')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        paddingTop: "80px",
+      }}
+    >
+      <Container style={{ backgroundColor: "rgba(255,255,255,0.9)", borderRadius: "15px", padding: "20px" }}>
         <h4>Empleados</h4>
+
+        <Button variant="primary" className="mb-3" onClick={() => navigate("/inicio")}>
+          Volver al Inicio
+        </Button>
+
         <Row>
           <Col lg={5} md={6} sm={8} xs={12}>
             <CuadroBusquedas
@@ -171,10 +172,7 @@ const Empleados = () => {
             />
           </Col>
           <Col className="text-end">
-            <Button
-              className="color-boton-registro"
-              onClick={() => setMostrarModal(true)}
-            >
+            <Button className="color-boton-registro" onClick={() => setMostrarModal(true)}>
               + Nuevo Empleado
             </Button>
           </Col>
@@ -214,7 +212,7 @@ const Empleados = () => {
           confirmarEliminacion={confirmarEliminacion}
         />
       </Container>
-    </>
+    </div>
   );
 };
 

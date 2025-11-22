@@ -4,7 +4,9 @@ import { Navigate } from "react-router-dom";
 const RutaProtegida = ({ vista }) => {
 
   // Verifica si el usuario está autenticado usando localStorage
-  const estaLogueado = !!localStorage.getItem("usuario") && !!localStorage.getItem("contraseña");
+  const estaLogueado =
+    !!localStorage.getItem("usuario") &&
+    !!localStorage.getItem("contrasena");  // ← corregido (sin ñ)
 
   // Log para depuración
   console.log("Usuario autenticado:", estaLogueado);

@@ -6,6 +6,7 @@ import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalEdicionCategoria from "../components/categorias/ModalEdicionCategoria";
 import ModalEliminacionCategoria from "../components/categorias/ModalEliminacionCategoria";
 import { Zoom } from "react-awesome-reveal";
+import { useNavigate } from "react-router-dom";
 
 const Categorias = () => {
   const [categorias, setCategorias] = useState([]);
@@ -23,7 +24,6 @@ const Categorias = () => {
   const [paginaActual, establecerPaginaActual] = useState(1);
   const elementosPorPagina = 10; // Número de productos por página
 
-  // Calcular productos paginados
   const categoriasPaginadas = categoriasFiltradas.slice(
     (paginaActual - 1) * elementosPorPagina,
     paginaActual * elementosPorPagina
@@ -34,6 +34,8 @@ const Categorias = () => {
     nombre_categoria: "",
     descripcion_categoria: "",
   });
+
+  const navigate = useNavigate();
 
   const manejarCambioInput = (e) => {
     const { name, value } = e.target;
@@ -103,10 +105,9 @@ const Categorias = () => {
 
       if (!respuesta.ok) throw new Error("Error al guardar");
 
-      // Limpiar y cerrar
       setNuevaCategoria({ nombre_categoria: "", descripcion_categoria: "" });
       setMostrarModal(false);
-      await obtenerCategorias(); // Refresca la lista
+      await obtenerCategorias();
     } catch (error) {
       console.error("Error al agregar categoría:", error);
       alert("No se pudo guardar la categoría. Revisa la consola.");
@@ -117,9 +118,8 @@ const Categorias = () => {
     try {
       const respuesta = await fetch("http://localhost:3000/api/categorias");
 
-      if (!respuesta.ok) {
-        throw new Error("Error al obtener las categorías");
-      }
+      if (!respuesta.ok) throw new Error("Error al obtener las categorías");
+
       const datos = await respuesta.json();
 
       setCategorias(datos);
@@ -149,9 +149,26 @@ const Categorias = () => {
   }, []);
 
   return (
-    <>
-      <Container className="mt-4">
-        <h4>Categorias</h4>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundImage: "url('https://images.unsplash.com/photo-1603415526960-f11e2e3a6e35?auto=format&fit=crop&w=1470&q=80')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        paddingTop: '80px',
+      }}
+    >
+      <Container className="mt-4" style={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '15px', padding: '20px' }}>
+        <h4>Categorías</h4>
+
+        <Button
+          variant="primary"
+          className="mb-3"
+          onClick={() => navigate('/inicio')}
+        >
+          Volver al Inicio
+        </Button>
+
         <Row>
           <Col lg={5} md={6} sm={8} xs={7}>
             <CuadroBusquedas
@@ -166,7 +183,7 @@ const Categorias = () => {
           </Col>
         </Row>
 
-        <Zoom cascade triggerOnce delay ={100} duration={2000}>
+        <Zoom cascade triggerOnce delay={100} duration={2000}>
           <TablaCategorias
             categorias={categoriasPaginadas}
             cargando={cargando}
@@ -200,7 +217,7 @@ const Categorias = () => {
           confirmarEliminacion={confirmarEliminacion}
         />
       </Container>
-    </>
+    </div>
   );
 };
 

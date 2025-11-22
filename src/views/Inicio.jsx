@@ -1,11 +1,14 @@
+import React from "react";
+import Encabezado from "../components/navegacion/Encabezado";
+import ComponenteInicio from "../components/Inicio/ComponenteIncio"
+
 const Inicio = () => {
-
-
   return (
     <>
-      <h2>Pagina de Inicio</h2>
+      <Encabezado />
+      <ComponenteInicio />
     </>
   );
+};
 
-}
 export default Inicio;

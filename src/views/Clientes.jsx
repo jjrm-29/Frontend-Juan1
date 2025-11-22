@@ -5,6 +5,7 @@ import CuadroBusquedas from "../components/Busquedas/CuadroBusquedas";
 import ModalRegistroCliente from "../components/clientes/ModalRegistroCliente";
 import ModalEdicionCliente from "../components/clientes/ModalEdicionCliente";
 import ModalEliminacionCliente from "../components/clientes/ModalEliminacionCliente";
+import { useNavigate } from "react-router-dom";
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -32,7 +33,8 @@ const Clientes = () => {
   const [paginaActual, establecerPaginaActual] = useState(1);
   const elementosPorPagina = 10;
 
-  // Calcular clientes paginados
+  const navigate = useNavigate();
+
   const clientesPaginados = clientesFiltrados.slice(
     (paginaActual - 1) * elementosPorPagina,
     paginaActual * elementosPorPagina
@@ -153,56 +155,75 @@ const Clientes = () => {
   }, []);
 
   return (
-    <Container className="mt-4">
-      <h4>Clientes</h4>
-      <Row>
-        <Col lg={5} md={6} sm={8} xs={7}>
-          <CuadroBusquedas
-            textoBusqueda={textoBusqueda}
-            manejarCambioBusqueda={manejarCambioBusqueda}
-          />
-        </Col>
-        <Col className="text-end">
-          <Button variant="primary" onClick={() => setMostrarModal(true)}>
-            + Nuevo Cliente
-          </Button>
-        </Col>
-      </Row>
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundImage: "url('https://images.unsplash.com/photo-1591012911202-5b4a4d66c889?auto=format&fit=crop&w=1470&q=80')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        paddingTop: '80px',
+      }}
+    >
+      <Container style={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '15px', padding: '20px' }}>
+        <h4>Clientes</h4>
 
-      <TablaClientes
-        clientes={clientesPaginados}
-        cargando={cargando}
-        totalElementos={clientesFiltrados.length}
-        elementosPorPagina={elementosPorPagina}
-        paginaActual={paginaActual}
-        establecerPaginaActual={establecerPaginaActual}
-        abrirModalEdicion={abrirModalEdicion}
-        abrirModalEliminacion={abrirModalEliminacion}
-      />
+        <Button
+          variant="primary"
+          className="mb-3"
+          onClick={() => navigate('/inicio')}
+        >
+          Volver al Inicio
+        </Button>
 
-      <ModalRegistroCliente
-        mostrarModal={mostrarModal}
-        setMostrarModal={setMostrarModal}
-        nuevoCliente={nuevoCliente}
-        manejarCambioInput={manejarCambioInput}
-        agregarCliente={agregarCliente}
-      />
+        <Row>
+          <Col lg={5} md={6} sm={8} xs={7}>
+            <CuadroBusquedas
+              textoBusqueda={textoBusqueda}
+              manejarCambioBusqueda={manejarCambioBusqueda}
+            />
+          </Col>
+          <Col className="text-end">
+            <Button variant="primary" onClick={() => setMostrarModal(true)}>
+              + Nuevo Cliente
+            </Button>
+          </Col>
+        </Row>
 
-      <ModalEdicionCliente
-        mostrar={mostrarModalEdicion}
-        setMostrar={setMostrarModalEdicion}
-        clienteEditado={clienteEditado}
-        setClienteEditado={setClienteEditado}
-        guardarEdicion={guardarEdicion}
-      />
+        <TablaClientes
+          clientes={clientesPaginados}
+          cargando={cargando}
+          totalElementos={clientesFiltrados.length}
+          elementosPorPagina={elementosPorPagina}
+          paginaActual={paginaActual}
+          establecerPaginaActual={establecerPaginaActual}
+          abrirModalEdicion={abrirModalEdicion}
+          abrirModalEliminacion={abrirModalEliminacion}
+        />
 
-      <ModalEliminacionCliente
-        mostrar={mostrarModalEliminar}
-        setMostrar={setMostrarModalEliminar}
-        cliente={clienteAEliminar}
-        confirmarEliminacion={confirmarEliminacion}
-      />
-    </Container>
+        <ModalRegistroCliente
+          mostrarModal={mostrarModal}
+          setMostrarModal={setMostrarModal}
+          nuevoCliente={nuevoCliente}
+          manejarCambioInput={manejarCambioInput}
+          agregarCliente={agregarCliente}
+        />
+
+        <ModalEdicionCliente
+          mostrar={mostrarModalEdicion}
+          setMostrar={setMostrarModalEdicion}
+          clienteEditado={clienteEditado}
+          setClienteEditado={setClienteEditado}
+          guardarEdicion={guardarEdicion}
+        />
+
+        <ModalEliminacionCliente
+          mostrar={mostrarModalEliminar}
+          setMostrar={setMostrarModalEliminar}
+          cliente={clienteAEliminar}
+          confirmarEliminacion={confirmarEliminacion}
+        />
+      </Container>
+    </div>
   );
 };
 

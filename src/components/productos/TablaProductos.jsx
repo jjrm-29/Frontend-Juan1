@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
 import BotonOrden from "../ordenamiento/BotonOrden";
 import Paginacion from "../ordenamiento/Paginacion";
-import { jsPDF } from "jspdf"; // ← IMPORTANTE
+import { jsPDF } from "jspdf";
 
 const TablaProductos = ({
   productos,
@@ -19,19 +19,19 @@ const TablaProductos = ({
     direccion: "asc",
   });
 
+  // Función para generar PDF detalle por producto
   const generatePDFDetalleProducto = (producto) => {
     if (!producto) return;
 
     const doc = new jsPDF();
     const anchoPagina = doc.internal.pageSize.getWidth();
 
+    // Encabezado
     doc.setFillColor(28, 41, 51);
     doc.rect(0, 0, anchoPagina, 30, "F");
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(18);
-    doc.text(producto.nombre_producto, anchoPagina / 2, 18, {
-      align: "center",
-    });
+    doc.text(producto.nombre_producto, anchoPagina / 2, 18, { align: "center" });
 
     let posicionY = 58;
 
@@ -63,6 +63,7 @@ const TablaProductos = ({
     doc.save(`detalle_${producto.nombre_producto}.pdf`);
   };
 
+  // Manejo de ordenamiento
   const manejarOrden = (campo) => {
     setOrden((prev) => ({
       campo,
@@ -95,24 +96,12 @@ const TablaProductos = ({
       <Table striped bordered hover>
         <thead>
           <tr>
-            <BotonOrden campo="id_producto" orden={orden} manejarOrden={manejarOrden}>
-              ID
-            </BotonOrden>
-            <BotonOrden campo="nombre_producto" orden={orden} manejarOrden={manejarOrden}>
-              Nombre
-            </BotonOrden>
-            <BotonOrden campo="descripcion_producto" orden={orden} manejarOrden={manejarOrden}>
-              Descripción
-            </BotonOrden>
-            <BotonOrden campo="id_categoria" orden={orden} manejarOrden={manejarOrden}>
-              Categoría
-            </BotonOrden>
-            <BotonOrden campo="precio_unitario" orden={orden} manejarOrden={manejarOrden}>
-              Precio
-            </BotonOrden>
-            <BotonOrden campo="stock" orden={orden} manejarOrden={manejarOrden}>
-              Stock
-            </BotonOrden>
+            <BotonOrden campo="id_producto" orden={orden} manejarOrden={manejarOrden}>ID</BotonOrden>
+            <BotonOrden campo="nombre_producto" orden={orden} manejarOrden={manejarOrden}>Nombre</BotonOrden>
+            <BotonOrden campo="descripcion_producto" orden={orden} manejarOrden={manejarOrden}>Descripción</BotonOrden>
+            <BotonOrden campo="id_categoria" orden={orden} manejarOrden={manejarOrden}>Categoría</BotonOrden>
+            <BotonOrden campo="precio_unitario" orden={orden} manejarOrden={manejarOrden}>Precio</BotonOrden>
+            <BotonOrden campo="stock" orden={orden} manejarOrden={manejarOrden}>Stock</BotonOrden>
             <th>Imagen</th>
             <th>Acciones</th>
           </tr>
@@ -127,7 +116,6 @@ const TablaProductos = ({
               <td>{producto.id_categoria}</td>
               <td>{producto.precio_unitario}</td>
               <td>{producto.stock}</td>
-
               <td>
                 {producto.imagen ? (
                   <img
@@ -141,9 +129,8 @@ const TablaProductos = ({
                   "Sin imagen"
                 )}
               </td>
-
               <td>
-                {/* BOTÓN PDF */}
+                {/* PDF detalle */}
                 <Button
                   variant="outline-secondary"
                   size="sm"
